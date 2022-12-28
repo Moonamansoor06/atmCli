@@ -4,7 +4,6 @@ import figlet from "figlet";
 import colors from "colors";
 import chalk from "chalk";
 import inquirer from "inquirer";
-import  Question, { question }  from "readline-sync";
 
 function main() {
     clear();
@@ -48,7 +47,8 @@ function main() {
 let userPresent=false
 let userIDEntered=""
 let arrayIndex=0
-console.log(chalk.green("users saved ",users))
+console.log(chalk.green(users.map((user,ind)=>{
+    console.log(`${ind+1}. user name ${user.userName} \n user pin ${user.userPin}\n`)})))
     async function oper() {
     await inquirer
     
@@ -77,15 +77,16 @@ console.log(chalk.green("users saved ",users))
                 })
             },
         ]).then((answers)=>{ 
-            console.log(answers) 
+         
            users.map((user,index)=>{
             if(user.userName===answers.userId && user.userPin===answers.pin ){
           userPresent=true
                 arrayIndex=index
           userIDEntered=user.userId
         }
-          
-           })
+        
+           }) 
+          if(!userPresent)  console.log("incorrect user or pin")
         })
     }
     async function userOper(){
@@ -100,7 +101,7 @@ console.log(chalk.green("users saved ",users))
             },
            
         ]).then((answers)=>{ 
-            console.log("user entered",answers.amount)
+           
         users.map((useramnt,index)=>{
         if(userIDEntered===useramnt.userId){
             if(answers.amount<=useramnt.amountPresent){    

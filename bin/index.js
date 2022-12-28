@@ -18,22 +18,22 @@ function main() {
     // const pinList=["1234","5678","91011"]
     const users = [{
             userId: "01",
-            userName: "Moona",
+            userName: "moona",
             userPin: "1234",
             amountPresent: 200300
         },
         { userId: "02",
-            userName: "Kiran",
+            userName: "kiran",
             userPin: "5678",
             amountPresent: 550300
         },
         { userId: "03",
-            userName: "Sahar",
+            userName: "sahar",
             userPin: "0180",
             amountPresent: 1250300
         },
         { userId: "04",
-            userName: "Mansoor",
+            userName: "mansoor",
             userPin: "0372",
             amountPresent: 2250300
         },
@@ -41,6 +41,9 @@ function main() {
     let userPresent = false;
     let userIDEntered = "";
     let arrayIndex = 0;
+    console.log(chalk.green(users.map((user, ind) => {
+        console.log(`${ind + 1}. user name ${user.userName} \n user pin ${user.userPin}\n`);
+    })));
     async function oper() {
         await inquirer
             .prompt([
@@ -67,7 +70,6 @@ function main() {
                 })
             },
         ]).then((answers) => {
-            console.log(answers);
             users.map((user, index) => {
                 if (user.userName === answers.userId && user.userPin === answers.pin) {
                     userPresent = true;
@@ -75,6 +77,8 @@ function main() {
                     userIDEntered = user.userId;
                 }
             });
+            if (!userPresent)
+                console.log("incorrect user or pin");
         });
     }
     async function userOper() {
@@ -86,7 +90,6 @@ function main() {
                     message: msg4,
                 },
             ]).then((answers) => {
-                console.log("user entered", answers.amount);
                 users.map((useramnt, index) => {
                     if (userIDEntered === useramnt.userId) {
                         if (answers.amount <= useramnt.amountPresent) {
@@ -97,7 +100,6 @@ function main() {
                     }
                 });
                 users[arrayIndex].amountPresent = users[arrayIndex].amountPresent - answers.amount;
-                console.log("original array", users[arrayIndex]);
                 console.log("your new amount is :", users[arrayIndex].amountPresent);
             });
         }
